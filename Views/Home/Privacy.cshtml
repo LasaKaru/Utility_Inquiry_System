@@ -5,6 +5,8 @@
 
 
 
+
+
 <!--   <p>The time is @DateTime.Now</p> -->
 
 
@@ -30,13 +32,35 @@
     </div>
     <div class="form-group">
         <label for="txnNo">TXN No</label>
-        <input type="checkbox" name="txnNo" id="txnNo">
-        <input type="text" name="txnNumber" id="txnNumber" class="form-control" disabled>
+        <input type="checkbox" name="txnNo" id="txnNo" />
+        <input type="text" name="txnNumber" id="txnNumber" class="form-control" disabled />
+        <script>
+            $(document).ready(function () {
+                $("#txnNo").change(function () {
+                    if ($(this).is(":checked")) {
+                        $("#txnNumber").prop("disabled", false);
+                    } else {
+                        $("#txnNumber").prop("disabled", true);
+                    }
+                });
+            });
+        </script>
     </div>
     <div class="form-group">
         <label for="accountNo">Account No</label>
         <input type="checkbox" name="accountNo" id="accountNo">
         <input type="text" name="accountNumber" id="accountNumber" class="form-control" disabled>
+        <script>
+            $(document).ready(function () {
+                $("#txnNo").change(function () {
+                    if ($(this).is(":checked")) {
+                        $("#txnNumber").prop("disabled", false);
+                    } else {
+                        $("#txnNumber").prop("disabled", true);
+                    }
+                });
+            });
+        </script>
     </div>
     <div class="form-group">
         <label for="dateFrom">Date From</label>
@@ -82,88 +106,86 @@
 
 
 
-<script>
+< script >
 
 
-$(document).ready(function () {
-    // Initialize the date pickers
-    $(".date-picker").datepicker({
-        todayHighlight: true,
-        autoclose: true
-    });
-
-    // Handle the search button click event
-    $("#searchButton").click(function () {
-        // Get the selected service provider
-        var serviceProvider = $("#serviceProvider").val();
-
-        // Get the TXN No checkbox value
-        var txnNoChecked = $("#txnNo").is(":checked");
-
-        // Get the Account No checkbox value
-        var accountNoChecked = $("#accountNo").is(":checked");
-
-        // Get the TXN No value
-        var txnNo = $("#txnNoInput").val();
-
-        // Get the Account No value
-        var accountNo = $("#accountNoInput").val();
-
-        // Get the start date
-        var startDate = $("#startDate").val();
-
-        // Get the end date
-        var endDate = $("#endDate").val();
-
-        // Get the errors
-        var errors = [];
-
-        // Validate the service provider
-        if (serviceProvider == "") {
-            errors.push("Please select a service provider.");
-        }
-
-        // Validate the TXN No
-        if (txnNoChecked && txnNo == "") {
-            errors.push("Please enter the TXN No.");
-        }
-
-        // Validate the Account No
-        if (accountNoChecked && accountNo == "") {
-            errors.push("Please enter the Account No.");
-        }
-
-        // If there are any errors, show them
-        if (errors.length > 0) {
-            $("#errorList").html(errors.join("
-<br />"));
-        } else {
-            // Get the data from the server
-            $.ajax({
-                url: "/api/get-data",
-                data: {
-                    serviceProvider: serviceProvider,
-                    txnNo: txnNo,
-                    accountNo: accountNo,
-                    startDate: startDate,
-                    endDate: endDate
-                },
-                type: "GET",
-                success: function (data) {
-                    // Display the data
-                    $("#data").html(data);
-                },
-                error: function (error) {
-                    // Show the error message
-                    $("#errorList").html(error.responseText);
-                }
+    $(document).ready(function() {
+            // Initialize the date pickers
+            $(".date-picker").datepicker({
+                todayHighlight: true,
+                autoclose: true
             });
-        }
-    });
-});
 
+            // Handle the search button click event
+            $("#searchButton").click(function() {
+                // Get the selected service provider
+                var serviceProvider = $("#serviceProvider").val();
 
+                // Get the TXN No checkbox value
+                var txnNoChecked = $("#txnNo").is(":checked");
 
+                // Get the Account No checkbox value
+                var accountNoChecked = $("#accountNo").is(":checked");
+
+                // Get the TXN No value
+                var txnNo = $("#txnNoInput").val();
+
+                // Get the Account No value
+                var accountNo = $("#accountNoInput").val();
+
+                // Get the start date
+                var startDate = $("#startDate").val();
+
+                // Get the end date
+                var endDate = $("#endDate").val();
+
+                // Get the errors
+                var errors = [];
+
+                // Validate the service provider
+                if (serviceProvider == "") {
+                    errors.push("Please select a service provider.");
+                }
+
+                // Validate the TXN No
+                if (txnNoChecked && txnNo == "") {
+                    errors.push("Please enter the TXN No.");
+                }
+
+                // Validate the Account No
+                if (accountNoChecked && accountNo == "") {
+                    errors.push("Please enter the Account No.");
+                }
+
+                // If there are any errors, show them
+                if (errors.length > 0) {
+                    $("#errorList").html(errors.join(" <
+                            br / > "));
+                        }
+                        else {
+                            // Get the data from the server
+                            $.ajax({
+                                url: "/api/get-data",
+                                data: {
+                                    serviceProvider: serviceProvider,
+                                    txnNo: txnNo,
+                                    accountNo: accountNo,
+                                    startDate: startDate,
+                                    endDate: endDate
+                                },
+                                type: "GET",
+                                success: function(data) {
+                                    // Display the data
+                                    $("#data").html(data);
+                                },
+                                error: function(error) {
+                                    // Show the error message
+                                    $("#errorList").html(error.responseText);
+                                }
+                            });
+                        }
+                    });
+            });
 </script>
 
 
